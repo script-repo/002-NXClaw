@@ -36,6 +36,15 @@ jobs:
           IMAGE=ghcr.io/${{ github.repository_owner }}/nxclaw-portal:latest
           docker tag nxclaw-portal:latest $IMAGE
           docker push $IMAGE
+      - name: Set package visibility to public
+        run: |
+          for pkg in nxclaw-api nxclaw-portal; do
+            curl -sS -X PATCH \
+              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Accept: application/vnd.github+json" \
+              "https://api.github.com/users/${{ github.repository_owner }}/packages/container/${pkg}" \
+              -d '{"visibility":"public"}' || true
+          done
       - name: Deploy instructions
         run: |
           echo "## Images pushed" >> $GITHUB_STEP_SUMMARY
