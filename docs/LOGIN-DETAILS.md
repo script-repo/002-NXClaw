@@ -2,7 +2,7 @@
 
 ## Portal URL (LoadBalancer)
 
-**Base URL:** `http://10.42.156.15`
+**Base URL:** `http://x.x.x.x.x`
 
 Use this in your browser once the Portal pod is running (see below).
 
