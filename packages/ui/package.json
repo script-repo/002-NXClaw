@@ -8,7 +8,8 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": { "import": "./dist/index.js", "types": "./dist/index.d.ts" },
-    "./styles.css": "./dist/styles.css"
+    "./styles.css": "./dist/styles.css",
+    "./components.css": "./dist/components.css"
   },
   "scripts": {
     "build": "tsc && node scripts/copy-css.mjs",
