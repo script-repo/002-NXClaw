@@ -29,5 +29,5 @@ The API seeds this user on first startup (when it can connect to Postgres). To o
 
 After you build and push (or load) the API and Portal images so the pods run:
 
-1. Open **http://10.42.156.15** in a browser.  
+1. Open **http://x.x.x.x** in a browser.  
 2. Log in with **admin** / **admin**.
