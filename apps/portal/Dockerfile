@@ -3,6 +3,7 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 # Workspace root
 COPY package.json package-lock.json* ./
+COPY tsconfig.base.json ./
 COPY packages/ui packages/ui
 COPY apps/portal apps/portal
 RUN npm install
