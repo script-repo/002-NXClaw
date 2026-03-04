@@ -25,7 +25,7 @@ The API seeds this user on first startup (when it can connect to Postgres). To o
 - **Postgres:** Deployed; pod should become Ready after the volume permission fix.  
 - **API:** Deployment applied; pod is in **ErrImagePull** until the image `nxclaw-api:latest` is available in the cluster (build and push or load; see [DEPLOY-K8S.md](DEPLOY-K8S.md)).  
 - **Portal:** Deployment applied; pod is in **ErrImagePull** until the image `nxclaw-portal:latest` is available (see [DEPLOY-K8S.md](DEPLOY-K8S.md)).  
-- **LoadBalancer:** Service `nxclaw-portal` has **EXTERNAL-IP** `10.42.156.15` (port 80).
+- **LoadBalancer:** Service `nxclaw-portal` has **EXTERNAL-IP** `x.x.x.x` (port 80).
 
 After you build and push (or load) the API and Portal images so the pods run:
 
