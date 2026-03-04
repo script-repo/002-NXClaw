@@ -5,7 +5,7 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$Owner
 )
-$root = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
+$root = Split-Path -Parent $PSScriptRoot
 $k = Join-Path $root "infra\overlays\default\kustomization.yaml"
 if (-not (Test-Path $k)) { Write-Error "Not found: $k"; exit 1 }
 (Get-Content $k -Raw) -replace 'REPO_OWNER', $Owner | Set-Content $k -NoNewline

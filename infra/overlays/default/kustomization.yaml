@@ -1,5 +1,5 @@
-# Overlay: image registry. Replace REPO_OWNER with your GitHub org/user (e.g. DaemonBehr).
-# After Build and push workflow runs, use: ./scripts/set-registry.sh REPO_OWNER  or  .\scripts\set-registry.ps1 REPO_OWNER
+# Overlay: image registry. Replace script-repo with your GitHub org/user (e.g. DaemonBehr).
+# After Build and push workflow runs, use: ./scripts/set-registry.sh script-repo  or  .\scripts\set-registry.ps1 script-repo
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:

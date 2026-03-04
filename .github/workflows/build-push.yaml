@@ -17,7 +17,7 @@ jobs:
           cache: "npm"
       - run: npm ci
       - name: Build API image
-        run: docker build -t nxclaw-api:latest ./apps/api
+        run: docker build -f apps/api/Dockerfile -t nxclaw-api:latest .
       - name: Build Portal image
         run: docker build -f apps/portal/Dockerfile -t nxclaw-portal:latest .
       - name: Log in to GHCR
