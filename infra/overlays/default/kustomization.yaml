@@ -1,0 +1,13 @@
+# Overlay: image registry. Replace REPO_OWNER with your GitHub org/user (e.g. DaemonBehr).
+# After Build and push workflow runs, use: ./scripts/set-registry.sh REPO_OWNER  or  .\scripts\set-registry.ps1 REPO_OWNER
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+images:
+  - name: nxclaw-api:latest
+    newName: ghcr.io/REPO_OWNER/nxclaw-api
+    newTag: latest
+  - name: nxclaw-portal:latest
+    newName: ghcr.io/REPO_OWNER/nxclaw-portal
+    newTag: latest

@@ -1,0 +1,40 @@
+/**
+ * NXClaw design tokens — Nutanix Enterprise AI–style aesthetic.
+ * Dark sidebar/header, light content area, purposeful color, modular cards.
+ */
+:root {
+  /* Sidebar & header (dark) */
+  --nx-sidebar-bg: #292D32;
+  --nx-sidebar-bg-active: #343a40;
+  --nx-sidebar-text: #ffffff;
+  --nx-sidebar-text-muted: rgba(255, 255, 255, 0.7);
+  --nx-sidebar-accent: #4a90d9;
+
+  /* Main content (light) */
+  --nx-bg: #F8F8F8;
+  --nx-surface: #ffffff;
+  --nx-surface-hover: #f0f0f0;
+  --nx-border: #e5e5e5;
+  --nx-border-light: #eeeeee;
+
+  /* Text on light */
+  --nx-text: #333333;
+  --nx-text-muted: #6b7280;
+  --nx-text-secondary: #9ca3af;
+
+  /* Accent & status */
+  --nx-accent: #2563eb;
+  --nx-accent-hover: #1d4ed8;
+  --nx-link: #2563eb;
+  --nx-success: #22c55e;
+  --nx-error: #ef4444;
+  --nx-warning: #f59e0b;
+  --nx-pending: #eab308;
+
+  /* Cards & depth */
+  --nx-radius: 8px;
+  --nx-radius-sm: 6px;
+  --nx-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --nx-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --nx-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}

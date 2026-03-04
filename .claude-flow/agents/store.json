@@ -1,0 +1,18 @@
+{
+  "agents": {
+    "agent-1772646174169-parawi": {
+      "agentId": "agent-1772646174169-parawi",
+      "agentType": "coder",
+      "status": "idle",
+      "health": 1,
+      "taskCount": 0,
+      "config": {
+        "provider": "anthropic"
+      },
+      "createdAt": "2026-03-04T17:42:54.169Z",
+      "model": "sonnet",
+      "modelRoutedBy": "default"
+    }
+  },
+  "version": "3.0.0"
+}

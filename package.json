@@ -1,0 +1,25 @@
+{
+  "name": "nxclaw",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Autonomous agent fleet portal and chat — Nanoclaw + NAI",
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "dev:api": "npm run dev -w apps/api",
+    "dev:portal": "npm run dev -w apps/portal",
+    "dev:chat": "npm run dev -w apps/chat-ui",
+    "start:api": "npm run start -w apps/api"
+  },
+  "workspaces": [
+    "apps/api",
+    "apps/portal",
+    "apps/chat-ui",
+    "packages/ui",
+    "packages/shared"
+  ],
+  "engines": {
+    "node": ">=20"
+  }
+}

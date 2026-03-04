@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nxclaw-postgres-pvc
+  namespace: nxclaw
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nxclaw-postgres
+  namespace: nxclaw
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nxclaw-postgres
+  template:
+    metadata:
+      labels:
+        app: nxclaw-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16-alpine
+          securityContext:
+            runAsUser: 999
+            runAsNonRoot: true
+          env:
+            - name: POSTGRES_DB
+              value: nxclaw
+            - name: POSTGRES_USER
+              value: nxclaw
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: nxclaw-postgres-secret
+                  key: password
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: nxclaw-postgres-pvc
+      securityContext:
+        fsGroup: 999
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nxclaw-postgres
+  namespace: nxclaw
+spec:
+  selector:
+    app: nxclaw-postgres
+  ports:
+    - port: 5432
+      targetPort: 5432
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: nxclaw-postgres-secret
+  namespace: nxclaw
+type: Opaque
+stringData:
+  password: "nxclaw-db-secret-change-me"

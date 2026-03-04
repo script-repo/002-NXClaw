@@ -1,0 +1,42 @@
+# Portal: built SPA served by nginx (see apps/portal/Dockerfile).
+# Image must be built and pushed; set in overlay.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nxclaw-portal
+  namespace: nxclaw
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nxclaw-portal
+  template:
+    metadata:
+      labels:
+        app: nxclaw-portal
+    spec:
+      containers:
+        - name: portal
+          image: nxclaw-portal:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nxclaw-portal
+  namespace: nxclaw
+spec:
+  selector:
+    app: nxclaw-portal
+  ports:
+    - port: 80
+      targetPort: 80
+  type: LoadBalancer
