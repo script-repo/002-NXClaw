@@ -1,6 +1,6 @@
 import { Outlet, NavLink } from 'react-router-dom';
 import { Button, Shell } from '@nxclaw/ui';
-import { useAuth } from '../lib/auth';
+import { useAuth } from './lib/auth';
 
 const navItemStyle = (active: boolean): React.CSSProperties => ({
   display: 'block',
