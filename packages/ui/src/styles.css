@@ -2,6 +2,16 @@
  * NXClaw design tokens — Nutanix Enterprise AI–style aesthetic.
  * Dark sidebar/header, light content area, purposeful color, modular cards.
  */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #F8F8F8;
+}
+#root {
+  min-height: 100%;
+}
+
 :root {
   /* Sidebar & header (dark) */
   --nx-sidebar-bg: #292D32;
