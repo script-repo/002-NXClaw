@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Button, Card, Input } from '@nxclaw/ui';
 import { apiFetch } from '../lib/auth';
-import type { AgentConfig } from '@nxclaw/shared';
+import type { AgentConfig, InferenceEndpoint } from '@nxclaw/shared';
 
 export function Dashboard() {
   const [configs, setConfigs] = useState<AgentConfig[]>([]);
+  const [endpoints, setEndpoints] = useState<InferenceEndpoint[]>([]);
   const [loading, setLoading] = useState(true);
   const [addName, setAddName] = useState('');
   const [addJson, setAddJson] = useState('{}');
+  const [addEndpointId, setAddEndpointId] = useState<string>('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -19,8 +21,16 @@ export function Dashboard() {
       .finally(() => setLoading(false));
   };
 
+  const loadEndpoints = () => {
+    apiFetch('/inference')
+      .then((r) => r.json())
+      .then(setEndpoints)
+      .catch(() => setEndpoints([]));
+  };
+
   useEffect(() => {
     loadConfigs();
+    loadEndpoints();
   }, []);
 
   const handleAdd = (e: React.FormEvent) => {
@@ -44,7 +54,11 @@ export function Dashboard() {
     apiFetch('/agent-config', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, config_json }),
+      body: JSON.stringify({
+        name,
+        config_json,
+        ...(addEndpointId ? { inference_endpoint_id: addEndpointId } : {}),
+      }),
     })
       .then((r) => {
         if (!r.ok) return r.json().then((d: { error?: string }) => { throw new Error(d.error || 'Failed'); });
@@ -74,6 +88,31 @@ export function Dashboard() {
                 placeholder="e.g. Nanoclaw production"
                 disabled={submitting}
               />
+            </div>
+            <div>
+              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, marginBottom: 4, color: 'var(--nx-text)' }}>
+                Inference endpoint (optional)
+              </label>
+              <select
+                value={addEndpointId}
+                onChange={(e) => setAddEndpointId(e.target.value)}
+                disabled={submitting}
+                style={{
+                  width: '100%',
+                  fontFamily: 'var(--nx-font-sans)',
+                  fontSize: '0.9375rem',
+                  padding: '0.5rem 0.75rem',
+                  border: '1px solid var(--nx-border)',
+                  borderRadius: 'var(--nx-radius-sm)',
+                  background: 'var(--nx-surface)',
+                  color: 'var(--nx-text)',
+                }}
+              >
+                <option value="">None</option>
+                {endpoints.map((ep) => (
+                  <option key={ep.id} value={ep.id}>{ep.label}</option>
+                ))}
+              </select>
             </div>
             <div>
               <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, marginBottom: 4, color: 'var(--nx-text)' }}>
@@ -117,14 +156,22 @@ export function Dashboard() {
           </Card>
         ) : (
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {configs.map((c) => (
-              <li key={c.id}>
-                <Card>
-                  <strong style={{ color: 'var(--nx-text)' }}>{c.name}</strong>
-                  <pre style={{ fontSize: 12, marginTop: 8, overflow: 'auto', color: 'var(--nx-text-muted)' }}>{JSON.stringify(c.config_json, null, 2)}</pre>
-                </Card>
-              </li>
-            ))}
+            {configs.map((c) => {
+              const ep = c.inference_endpoint_id ? endpoints.find((e) => e.id === c.inference_endpoint_id) : null;
+              return (
+                <li key={c.id}>
+                  <Card>
+                    <strong style={{ color: 'var(--nx-text)' }}>{c.name}</strong>
+                    {ep && (
+                      <p style={{ margin: '4px 0 0', fontSize: '0.875rem', color: 'var(--nx-text-muted)' }}>
+                        Inference: {ep.label} — {ep.base_url}
+                      </p>
+                    )}
+                    <pre style={{ fontSize: 12, marginTop: 8, overflow: 'auto', color: 'var(--nx-text-muted)' }}>{JSON.stringify(c.config_json, null, 2)}</pre>
+                  </Card>
+                </li>
+              );
+            })}
           </ul>
         )}
       </section>
